@@ -55,7 +55,7 @@ export function AgeGate() {
               </>
             ) : (
               <>
-                <p className="text-sm uppercase tracking-widest text-accent">
+                <p className="text-sm uppercase tracking-widest text-gold">
                   Age Verification
                 </p>
                 <h2 className="mt-2 text-2xl font-bold">Are you 21 or older?</h2>

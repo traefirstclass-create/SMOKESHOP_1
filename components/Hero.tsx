@@ -8,12 +8,12 @@ export function Hero() {
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(circle at 15% 20%, hsl(38 70% 20%) 0%, transparent 45%), radial-gradient(circle at 85% 0%, hsl(280 40% 15%) 0%, transparent 40%), var(--color-background)",
+            "radial-gradient(circle at 15% 20%, hsl(355 65% 18%) 0%, transparent 45%), radial-gradient(circle at 85% 0%, hsl(145 40% 14%) 0%, transparent 40%), var(--color-background)",
         }}
       />
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-28">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-gold">
             Tampa&apos;s Smoke Shop
           </p>
           <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
@@ -41,22 +41,22 @@ export function Hero() {
           </div>
           <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-foreground/60">
             <span className="flex items-center gap-2">
-              <Truck className="h-4 w-4 text-accent" /> Discreet shipping
+              <Truck className="h-4 w-4 text-gold" /> Discreet shipping
             </span>
             <span className="flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-accent" /> 21+ age verified
+              <ShieldCheck className="h-4 w-4 text-gold" /> 21+ age verified
             </span>
             <span className="flex items-center gap-2">
-              <Lock className="h-4 w-4 text-accent" /> Secure checkout
+              <Lock className="h-4 w-4 text-gold" /> Secure checkout
             </span>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           {[
-            "hsl(38 70% 22%)",
-            "hsl(280 40% 20%)",
-            "hsl(200 50% 18%)",
-            "hsl(10 60% 22%)",
+            "hsl(355 65% 24%)",
+            "hsl(38 70% 24%)",
+            "hsl(145 40% 20%)",
+            "hsl(15 45% 20%)",
           ].map((bg, i) => (
             <div
               key={i}

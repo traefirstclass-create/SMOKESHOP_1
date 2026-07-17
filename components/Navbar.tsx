@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Menu, X, Search, ShoppingCart } from "lucide-react";
@@ -36,7 +37,15 @@ export function Navbar() {
           {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
 
-        <Link href="/" className="flex items-center gap-2 shrink-0">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
+          <Image
+            src="/logo.png"
+            alt="Ali Baba Smoke Shop"
+            width={40}
+            height={40}
+            priority
+            className="h-10 w-10 object-contain"
+          />
           <span className="text-lg font-bold tracking-tight text-accent">
             Ali Baba
           </span>

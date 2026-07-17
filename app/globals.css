@@ -1,13 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0c0b09;
-  --surface: #16140f;
-  --border: #2a2620;
-  --foreground: #f5f1e8;
-  --accent: #d9a441;
-  --accent-hover: #e8b75a;
-  --accent-foreground: #1a1204;
+  /* Palette derived from the Ali Baba Smoke Shop logo: red wordmark, gold
+     turban trim, deep green vest/leaves, cream robe. */
+  --background: #0d0a08;
+  --surface: #18130f;
+  --border: #322620;
+  --foreground: #f6efe0;
+  --accent: #d81f27;
+  --accent-hover: #ef3b3e;
+  --accent-foreground: #fff8f0;
+  --gold: #e3a83b;
+  --gold-foreground: #1a1204;
+  --leaf: #2f8f4e;
 }
 
 @theme inline {
@@ -18,6 +23,9 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-foreground: var(--accent-foreground);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-leaf: var(--leaf);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

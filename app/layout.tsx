@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   title: "Ali Baba Smoke Shop | Tampa",
   description:
     "Shop vapes, tobacco accessories, hookah, glass, and smoke shop essentials online. Order for pickup or shipping from Ali Baba Smoke Shop in Tampa, FL.",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({

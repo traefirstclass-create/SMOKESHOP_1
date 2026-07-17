@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { AtSign, MapPin, Clock, Phone } from "lucide-react";
 import { categories } from "@/lib/data/categories";
 
@@ -7,9 +8,18 @@ export function Footer() {
     <footer className="mt-24 border-t border-border bg-surface">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-4 lg:px-8">
         <div>
-          <p className="text-lg font-bold">
-            <span className="text-accent">Ali Baba</span> Smoke Shop
-          </p>
+          <div className="flex items-center gap-2">
+            <Image
+              src="/logo.png"
+              alt="Ali Baba Smoke Shop"
+              width={36}
+              height={36}
+              className="h-9 w-9 object-contain"
+            />
+            <p className="text-lg font-bold">
+              <span className="text-accent">Ali Baba</span> Smoke Shop
+            </p>
+          </div>
           <p className="mt-3 text-sm text-foreground/60">
             Tampa&apos;s spot for vapes, tobacco, hookah, and smoking
             accessories. In-store and online.
@@ -45,18 +55,18 @@ export function Footer() {
           </p>
           <ul className="flex flex-col gap-3 text-sm text-foreground/70">
             <li className="flex items-start gap-2">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
               Tampa, FL &mdash; exact address on our{" "}
               <Link href="/about" className="underline underline-offset-2 hover:text-accent">
                 about page
               </Link>
             </li>
             <li className="flex items-start gap-2">
-              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
               Mon&ndash;Sun, 10am&ndash;10pm (update with real hours)
             </li>
             <li className="flex items-start gap-2">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
               (813) 555-0100 (placeholder)
             </li>
           </ul>
