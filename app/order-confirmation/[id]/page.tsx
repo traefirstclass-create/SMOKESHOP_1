@@ -47,7 +47,7 @@ export default async function OrderConfirmationPage({ params }: { params: Params
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-20 text-center sm:px-6">
-      <CheckCircle2 className="mx-auto h-16 w-16 text-leaf" />
+      <CheckCircle2 className="mx-auto h-16 w-16 text-accent" />
       <h1 className="mt-6 text-3xl font-bold">Thank you for your order!</h1>
       <p className="mt-2 text-foreground/60">
         Order confirmation:{" "}

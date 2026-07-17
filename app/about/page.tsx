@@ -85,8 +85,8 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="mt-12 rounded-2xl border border-accent/30 bg-accent/10 p-6 text-sm text-foreground/70">
-        <strong className="text-accent">Age restriction notice:</strong> All
+      <div className="mt-12 rounded-2xl border border-gold/30 bg-gold/10 p-6 text-sm text-foreground/70">
+        <strong className="text-gold">Age restriction notice:</strong> All
         products on this site are intended for adults 21 years of age or
         older. Valid government-issued ID is required to complete a purchase
         and may be required upon delivery.

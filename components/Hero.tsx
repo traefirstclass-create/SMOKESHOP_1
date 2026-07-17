@@ -8,7 +8,7 @@ export function Hero() {
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(circle at 15% 20%, hsl(355 65% 18%) 0%, transparent 45%), radial-gradient(circle at 85% 0%, hsl(145 40% 14%) 0%, transparent 40%), var(--color-background)",
+            "radial-gradient(circle at 15% 20%, hsl(145 35% 16%) 0%, transparent 45%), radial-gradient(circle at 85% 0%, hsl(38 40% 14%) 0%, transparent 40%), var(--color-background)",
         }}
       />
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-28">
@@ -53,10 +53,10 @@ export function Hero() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           {[
-            "hsl(355 65% 24%)",
-            "hsl(38 70% 24%)",
-            "hsl(145 40% 20%)",
-            "hsl(15 45% 20%)",
+            "hsl(145 40% 22%)",
+            "hsl(38 60% 24%)",
+            "hsl(165 30% 18%)",
+            "hsl(90 22% 20%)",
           ].map((bg, i) => (
             <div
               key={i}

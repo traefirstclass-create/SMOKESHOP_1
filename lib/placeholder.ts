@@ -9,9 +9,23 @@ function hashSeed(seed: string): number {
   return Math.abs(hash);
 }
 
+// Curated earthy hue pairs (forest green, gold, olive, teal, terracotta) so
+// placeholder art stays within the shop's calm palette instead of cycling
+// through the full color wheel (no reds/blues/purples/pinks).
+const HUE_PAIRS: [number, number][] = [
+  [150, 170], // forest green
+  [38, 55], // amber / gold
+  [80, 100], // olive
+  [165, 185], // deep teal-green
+  [20, 35], // warm terracotta
+  [95, 115], // moss
+  [130, 145], // sage
+  [45, 60], // honey
+];
+
 export function gradientForSeed(seed: string): string {
   const hash = hashSeed(seed);
-  const hueA = hash % 360;
-  const hueB = (hueA + 45 + (hash % 40)) % 360;
-  return `linear-gradient(135deg, hsl(${hueA} 70% 22%) 0%, hsl(${hueB} 65% 12%) 100%)`;
+  const [hueA, hueB] = HUE_PAIRS[hash % HUE_PAIRS.length];
+  const jitter = hash % 10;
+  return `linear-gradient(135deg, hsl(${hueA + jitter} 55% 22%) 0%, hsl(${hueB + jitter} 48% 12%) 100%)`;
 }

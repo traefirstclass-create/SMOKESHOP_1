@@ -253,7 +253,7 @@ export default function CheckoutPage() {
               to Authorize.Net and never touch our server.
             </p>
             {!PAYMENT_CONFIGURED && (
-              <p className="mb-4 rounded-lg border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-accent">
+              <p className="mb-4 rounded-lg border border-gold/30 bg-gold/10 px-4 py-3 text-sm text-gold">
                 Payment processing isn&apos;t configured yet. Set the
                 Authorize.Net environment variables to enable live checkout.
               </p>
