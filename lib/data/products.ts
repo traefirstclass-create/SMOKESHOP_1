@@ -2,7 +2,23 @@ import type { Product } from "@/lib/types";
 
 // Placeholder catalog. Names/brands are generic stand-ins for real inventory —
 // swap for the shop's actual products (and real photography) once available.
-export const products: Product[] = [
+//
+// Every raw entry below intentionally omits compliance fields — they're
+// applied uniformly at the bottom of this file so the static fallback
+// catalog matches the live-DB default exactly: DO_NOT_SELL, unreviewed.
+// Nothing here is purchasable until a human reclassifies it via
+// /admin/products. See COMPLIANCE.md.
+type RawProduct = Omit<
+  Product,
+  | "complianceCategory"
+  | "needsLegalReview"
+  | "lastComplianceReviewDate"
+  | "reviewedBy"
+  | "complianceExpiresOn"
+  | "complianceNotes"
+>;
+
+const rawProducts: RawProduct[] = [
   // Vapes & Devices
   {
     id: "prod-vape-001",
@@ -409,6 +425,16 @@ export const products: Product[] = [
     featured: false,
   },
 ];
+
+export const products: Product[] = rawProducts.map((p) => ({
+  ...p,
+  complianceCategory: "DO_NOT_SELL",
+  needsLegalReview: true,
+  lastComplianceReviewDate: null,
+  reviewedBy: null,
+  complianceExpiresOn: null,
+  complianceNotes: "",
+}));
 
 export function getFeaturedProducts(): Product[] {
   return products.filter((p) => p.featured);

@@ -9,6 +9,12 @@ export function AgeGate() {
   const [visible, setVisible] = useState(false);
   const [declined, setDeclined] = useState(false);
 
+  // Intentional: localStorage isn't available during SSR, so the server
+  // always renders visible=false. This effect reads it post-hydration and
+  // flips state if needed — a lazy useState initializer would read
+  // localStorage during the initial client render instead, mismatching the
+  // server-rendered HTML.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     try {
       const verified = window.localStorage.getItem(STORAGE_KEY);
@@ -17,6 +23,7 @@ export function AgeGate() {
       setVisible(true);
     }
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   function confirm() {
     try {

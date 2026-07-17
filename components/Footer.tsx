@@ -69,6 +69,11 @@ export function Footer() {
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
               (813) 555-0100 (placeholder)
             </li>
+            <li>
+              <Link href="/trade/apply" className="underline underline-offset-2 hover:text-accent">
+                Wholesale / Trade program
+              </Link>
+            </li>
           </ul>
         </div>
 

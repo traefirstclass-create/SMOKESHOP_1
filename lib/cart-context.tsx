@@ -32,6 +32,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
+  // Intentional: localStorage isn't available during SSR, so the server
+  // always renders an empty cart. This effect reads it post-hydration —
+  // a lazy useState initializer would read localStorage during the initial
+  // client render instead, mismatching the server-rendered HTML.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
@@ -41,6 +46,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
     setHydrated(true);
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   useEffect(() => {
     if (!hydrated) return;

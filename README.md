@@ -1,16 +1,18 @@
 # Ali Baba Smoke Shop
 
-A full e-commerce site for Ali Baba Smoke Shop (Tampa, FL) — product catalog, cart, checkout, and real payment processing. Built with Next.js (App Router), Tailwind CSS, Supabase, and Authorize.Net, deployed on Vercel.
+A full e-commerce site for Ali Baba Smoke Shop (Tampa, FL) — product catalog, cart, checkout, real payment processing, and a compliance rule system for regulated products (tobacco/vapor/hemp-adjacent goods). Built with Next.js (App Router), Tailwind CSS, Supabase, and Authorize.Net, deployed on Vercel.
 
 The catalog ships with a **placeholder product set** (vapes, disposables, e-liquids, glass, hookah, papers, grinders, lighters, accessories, apparel) so the site is fully browsable out of the box. Swap in real inventory whenever you're ready — see [Managing products](#managing-products) below.
+
+**Every product defaults to blocked from sale** until a staff member explicitly reclassifies it in the admin dashboard — this is a regulated retail category and nothing is assumed sellable. See **[COMPLIANCE.md](./COMPLIANCE.md)** for the full plain-language explanation of every compliance rule and where to configure it; that document (not this one) is the one to hand to your attorney.
 
 ## Stack
 
 - **Next.js 16** (App Router) + TypeScript + Tailwind CSS v4
-- **Supabase** (Postgres) for the product catalog and orders
+- **Supabase** (Postgres + Auth) for the product catalog, orders, and the compliance system (state registrations, audit log, staff accounts)
 - **Authorize.Net** (Accept.js + the `authorizenet` SDK) for payment processing
 - **Framer Motion** + **lucide-react** for UI interactions/icons
-- Cart state via React Context + `localStorage` (guest checkout, no accounts)
+- Cart state via React Context + `localStorage` (guest checkout, no consumer accounts — staff/admin login is separate, see below)
 
 ## Running locally
 
@@ -38,10 +40,11 @@ Copy `.env.local.example` to `.env.local` and fill in values (see below for wher
 ### Setting up Supabase
 
 1. Create a free project at [supabase.com](https://supabase.com).
-2. Open the SQL editor and run `supabase/schema.sql`, then `supabase/seed.sql` (in that order) to create the tables and load the placeholder catalog.
+2. Open the SQL editor and run `supabase/schema.sql`, then `supabase/seed.sql` (in that order) to create the tables (catalog, orders, and the whole compliance system) and load the placeholder catalog + starter reference data. `schema.sql` is safe to re-run any time you pull an update that adds new columns/tables.
 3. Copy the Project URL, `anon` public key, and `service_role` secret key into your env vars.
+4. Create your first staff account so you can log into `/admin` — see [Admin dashboard & staff accounts](#admin-dashboard--staff-accounts) below.
 
-If Supabase isn't configured, the site automatically falls back to the static catalog in `lib/data/` for product listings — but orders can't be saved until it's set up.
+If Supabase isn't configured, the site automatically falls back to the static catalog in `lib/data/` for product listings (still `DO_NOT_SELL` by default — see below) — but orders, the admin dashboard, and everything compliance-related need Supabase configured to function.
 
 ### Setting up Authorize.Net
 
@@ -55,7 +58,23 @@ Card numbers are tokenized client-side by Authorize.Net's Accept.js and never to
 ## Managing products
 
 - **Quick edits:** update `lib/data/products.ts` / `lib/data/categories.ts` directly — no database required.
-- **Once Supabase is configured:** the app reads products/categories from Supabase first (falling back to the static data only if Supabase is unreachable or empty). Edit rows directly in the Supabase table editor, or re-run `npm run generate:seed` after editing `lib/data/` to regenerate `supabase/seed.sql` from the same source of truth.
+- **Once Supabase is configured:** the app reads products/categories from Supabase first (falling back to the static data only if Supabase is unreachable or empty). Edit catalog fields (name/price/description/etc.) directly in the Supabase table editor, or re-run `npm run generate:seed` after editing `lib/data/` to regenerate `supabase/seed.sql` from the same source of truth.
+- **Compliance category:** every product — static or Supabase — defaults to `DO_NOT_SELL` and won't appear on the storefront at all until reclassified in **Admin → Products**. This isn't a bug; see [COMPLIANCE.md](./COMPLIANCE.md).
+
+## Admin dashboard & staff accounts
+
+`/admin` is the compliance dashboard: product classification, state-by-state shipping registration, pickup-order fulfillment with an in-person ID-check flow, Trade/wholesale applications, the full audit log (with a monthly CSV export), and a marketing-copy content checker. It's gated by real Supabase Auth accounts, not a shared password, so every action in the audit log is attributable to a real person.
+
+**Creating your first staff account:**
+1. In your Supabase project dashboard → Authentication → Users → **Add user**, create an account with an email + password.
+2. In the SQL editor, run:
+   ```sql
+   insert into staff_profiles (user_id, display_name, role)
+   values ('<paste the user's UUID from step 1>', 'Your Name', 'owner');
+   ```
+3. Log in at `/admin/login`.
+
+See [COMPLIANCE.md](./COMPLIANCE.md) §10 for adding additional staff, and the rest of that document for what every admin page actually does.
 
 ## Deploying to Vercel
 
@@ -64,6 +83,8 @@ Card numbers are tokenized client-side by Authorize.Net's Accept.js and never to
 3. Add all the environment variables above in the Vercel project settings.
 4. Deploy.
 
-## Compliance note
+## Compliance
 
-This site includes a 21+ age gate and footer/product-page disclaimers as a starting point, but the placeholder legal copy (age restriction notice, shipping restrictions, etc.) should be reviewed by a lawyer familiar with tobacco/vape/hookah retail regulations in your state before real launch — requirements vary significantly by state and change often.
+This is a regulated retail category (tobacco/vapor/hemp-adjacent goods) with a full rule system built in — product categories that gate what can be shipped vs. picked up vs. sold at all, state-by-state shipping registration, age verification at checkout, an audit trail, and a marketing-copy checker. **Read [COMPLIANCE.md](./COMPLIANCE.md) before real launch** — it explains every rule in plain language and lists exactly what still needs your attorney's sign-off (product classifications, warning-label text, the banned-terms list, and the monthly filing export). `COMPLIANCE_STARTER_CHECKLIST.md` has non-binding suggested starting categories for the current placeholder catalog.
+
+The 21+ age gate and footer disclaimers are a starting point, but none of the placeholder legal copy should be treated as compliant as-is — it needs review by a lawyer familiar with tobacco/vape/hookah/hemp retail regulations in your state, which change often.

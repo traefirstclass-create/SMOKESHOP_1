@@ -10,6 +10,7 @@
     "generate:seed": "tsx scripts/generate-seed.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.3",
     "@supabase/supabase-js": "^2.110.7",
     "authorizenet": "^1.0.10",
     "clsx": "^2.1.1",

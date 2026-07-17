@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, AlertTriangle } from "lucide-react";
 import { ProductArt } from "@/components/ProductArt";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { ProductCard } from "@/components/ProductCard";
 import { formatPriceCents } from "@/lib/format";
 import { iconForCategorySlug, getCategoryBySlug } from "@/lib/data/categories";
 import { getAllProducts, getProductBySlug } from "@/lib/catalog";
+import { getComplianceSetting, WARNING_RESTRICTED_DTC_KEY, WARNING_PICKUP_ONLY_KEY } from "@/lib/compliance/settings";
 
 type Params = Promise<{ slug: string }>;
 
@@ -20,6 +21,16 @@ export default async function ProductPage({ params }: { params: Params }) {
   const related = allProducts
     .filter((p) => p.categorySlug === product.categorySlug && p.id !== product.id)
     .slice(0, 4);
+
+  // Warning-label copy is centrally configured in /admin/content, never
+  // hand-edited per page — see COMPLIANCE.md.
+  const warningKey =
+    product.complianceCategory === "RESTRICTED_DTC"
+      ? WARNING_RESTRICTED_DTC_KEY
+      : product.complianceCategory === "PICKUP_ONLY"
+        ? WARNING_PICKUP_ONLY_KEY
+        : null;
+  const warningText = warningKey ? await getComplianceSetting(warningKey) : null;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -66,6 +77,13 @@ export default async function ProductPage({ params }: { params: Params }) {
           <p className="mt-6 text-xs text-foreground/40">
             Must be 21+ to purchase. Valid ID required. Ships discreetly.
           </p>
+
+          {warningText && (
+            <div className="mt-4 flex gap-2 rounded-lg border border-gold/30 bg-gold/10 px-4 py-3 text-xs text-gold">
+              <AlertTriangle className="h-4 w-4 shrink-0" />
+              <p>{warningText}</p>
+            </div>
+          )}
         </div>
       </div>
 

@@ -19,6 +19,7 @@ type OrderItemRow = {
   product_name: string;
   quantity: number;
   price_cents: number;
+  fulfillment_type: "ship" | "pickup";
 };
 
 export default async function OrderConfirmationPage({ params }: { params: Params }) {
@@ -39,7 +40,7 @@ export default async function OrderConfirmationPage({ params }: { params: Params
       order = orderData as OrderRow;
       const { data: itemsData } = await supabase
         .from("order_items")
-        .select("product_name, quantity, price_cents")
+        .select("product_name, quantity, price_cents, fulfillment_type")
         .eq("order_id", id);
       orderItems = (itemsData as OrderItemRow[]) ?? [];
     }
@@ -64,6 +65,11 @@ export default async function OrderConfirmationPage({ params }: { params: Params
               <li key={i} className="flex justify-between text-foreground/70">
                 <span>
                   {item.product_name} &times; {item.quantity}
+                  {item.fulfillment_type === "pickup" && (
+                    <span className="ml-2 rounded-full border border-gold/40 px-2 py-0.5 text-[10px] uppercase tracking-wide text-gold">
+                      Pickup in store
+                    </span>
+                  )}
                 </span>
                 <span>{formatPriceCents(item.price_cents * item.quantity)}</span>
               </li>
@@ -73,6 +79,12 @@ export default async function OrderConfirmationPage({ params }: { params: Params
             <span>Total</span>
             <span className="text-accent">{formatPriceCents(order.total_cents)}</span>
           </div>
+          {orderItems.some((i) => i.fulfillment_type === "pickup") && (
+            <p className="mt-4 text-xs text-foreground/50">
+              Items marked &ldquo;Pickup in store&rdquo; can&apos;t be shipped — bring a valid
+              government ID matching this order&apos;s name when you pick them up.
+            </p>
+          )}
         </div>
       ) : (
         <p className="mt-8 text-sm text-foreground/50">
